@@ -15,7 +15,7 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Context
 
             
             builder.Entity<Applicant>().Property(x => x.ID).ValueGeneratedOnAdd();
-            builder.Entity<Applicant>().Property(x => x.Hired).HasDefaultValue(false);
+            builder.Entity<Applicant>().Property(x => x.Hired).HasDefaultValue(value:false);
 
             builder.Entity<Applicant>().HasData(
                     new Applicant {

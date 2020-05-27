@@ -4,7 +4,6 @@ namespace Hahn.ApplicatonProcess.May2020.Web.Controllers
 {
 
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Data.Models;
     using Data.Services;
@@ -36,9 +35,10 @@ namespace Hahn.ApplicatonProcess.May2020.Web.Controllers
 
         // POST: api/Applicant
         [HttpPost]
-        public async Task<ResponseModel> Post([FromBody] Applicant applicant)
+        public async Task<IActionResult> Post([FromBody] Applicant applicant)
         {
-            return await applicantService.SaveAsync(applicant);
+            var result= await applicantService.SaveAsync(applicant);
+            return Created("Applicant", result.Data);
             
         }
     

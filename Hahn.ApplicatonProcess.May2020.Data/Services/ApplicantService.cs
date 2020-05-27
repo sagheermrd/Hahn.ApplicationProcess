@@ -27,19 +27,19 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
                 applicantRepository.Remove(exisitingApplicant);
                 await unitOfWork.CompleteAsync();
 
-                return new ResponseModel {Success=true,StatusCode=201,Message="Successfully removed selected applicant" };
+                return new ResponseModel {Success=true,StatusCode=200,Message="Successfully removed selected applicant" };
             }
             catch (Exception ex)
             {
                 // Do some logging stuff
-                return new ResponseModel {Success=false, Message=$"An error occurred when deleting the applicant: {ex.Message}" };
+                return new ResponseModel {Success=false, Message=$"An error occurred when deleting the applicant: {ex.Message}",StatusCode=400 };
             }
         }
 
         public async Task<ResponseModel> ListAsync()
         {
             var applicants = await applicantRepository.ListAsync();
-            return new ResponseModel {Success=true,Data=applicants,StatusCode=201 };
+            return new ResponseModel {Success=true,Data=applicants,StatusCode=200 };
 
         }
         public async Task<ResponseModel> ListByIdAsync(int Id)
@@ -47,7 +47,7 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
             var applicant = await applicantRepository.FindByIdAsync(Id);
             if (applicant == null)
                 return new ResponseModel {Success=false,StatusCode=404,Message="No applicant found" };
-            return new ResponseModel { Success = true, Data = applicant, StatusCode = 201 };
+            return new ResponseModel { Success = true, Data = applicant, StatusCode = 200 };
 
         }
         public async Task<ResponseModel> SaveAsync(Applicant applicant)
@@ -64,7 +64,7 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
                 await applicantRepository.AddAsync(applicant);
                 await unitOfWork.CompleteAsync();
 
-                return new ResponseModel { Success=true,Message="Successfully added new applicant"};
+                return new ResponseModel { Success=true,Message="Successfully added new applicant",StatusCode=201};
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
             var existingApplicant = await applicantRepository.FindByIdAsync(applicant.ID);
 
             if (existingApplicant == null)
-                return new ResponseModel { Success=false,Message="Applicant not exisit"};
+                return new ResponseModel { Success=false,Message="Applicant not exisit",StatusCode=400};
 
             var validationResult = new Validator.ApplicantValidator().Validate(applicant);
             if (!validationResult.IsValid)
@@ -97,12 +97,12 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
                 applicantRepository.Update(existingApplicant);
                 await unitOfWork.CompleteAsync();
 
-                return new ResponseModel { Success=true,Message="Applicant updated successfully",Data=applicant, StatusCode=201};
+                return new ResponseModel { Success=true,Message="Applicant updated successfully",Data=applicant, StatusCode=200};
             }
             catch (Exception ex)
             {
                 // Do some logging stuff
-                return new ResponseModel { Message = $"An error occurred when updating the product: {ex.Message}",Success=false };
+                return new ResponseModel { Message = $"An error occurred when updating the product: {ex.Message}",Success=false,StatusCode=400 };
             }
         }
     }
