@@ -5,4 +5,15 @@
   </PropertyGroup>
 
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Swagger\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hahn.ApplicatonProcess.May2020.Data\Hahn.ApplicatonProcess.May2020.Data.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

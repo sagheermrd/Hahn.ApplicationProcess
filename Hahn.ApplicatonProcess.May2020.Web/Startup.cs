@@ -1,18 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+
 
 namespace Hahn.ApplicatonProcess.May2020.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.HttpsPolicy;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Data.Middleware;
+    using Swagger;
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -26,9 +29,9 @@ namespace Hahn.ApplicatonProcess.May2020.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             
-
+            services.InjectServices(Configuration.GetConnectionString("InMemory"));
+            services.AddCustomSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +41,7 @@ namespace Hahn.ApplicatonProcess.May2020.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCustomSwagger();
 
             app.UseHttpsRedirection();
 
