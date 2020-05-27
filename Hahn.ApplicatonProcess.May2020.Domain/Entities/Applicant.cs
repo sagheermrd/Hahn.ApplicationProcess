@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Hahn.ApplicatonProcess.May2020.Domain.Entities
 {
-    public class Applicant : BaseEntity
+    public partial class Applicant : BaseEntity
     {
         public string Name { get; set; }
         public string FamilyName { get; set; }

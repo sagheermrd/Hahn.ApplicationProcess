@@ -57,6 +57,9 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
 
                 if (applicant == null)
                     return new ResponseModel { Success=false,Message="Invalid applicant",StatusCode=400};
+                var validationResult = new Validator.ApplicantValidator().Validate(applicant);
+                if (!validationResult.IsValid)
+                    return new ResponseModel { Success = false, Message = validationResult.ToString(" Error:"),StatusCode=400};
 
                 await applicantRepository.AddAsync(applicant);
                 await unitOfWork.CompleteAsync();
@@ -76,6 +79,11 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
 
             if (existingApplicant == null)
                 return new ResponseModel { Success=false,Message="Applicant not exisit"};
+
+            var validationResult = new Validator.ApplicantValidator().Validate(applicant);
+            if (!validationResult.IsValid)
+                return new ResponseModel { Success = false, Message = validationResult.ToString(" Error:"), StatusCode = 400 };
+
             existingApplicant.Name = applicant.Name;
             existingApplicant.Address = applicant.Address;
             existingApplicant.Age = applicant.Age;
