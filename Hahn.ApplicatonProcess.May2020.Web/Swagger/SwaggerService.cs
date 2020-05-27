@@ -31,9 +31,6 @@ namespace Hahn.ApplicatonProcess.May2020.Web.Swagger
                     },
                 });
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                cfg.IncludeXmlComments(xmlPath);
             });
             return services;
         }
