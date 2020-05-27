@@ -27,7 +27,7 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
                 applicantRepository.Remove(exisitingApplicant);
                 await unitOfWork.CompleteAsync();
 
-                return new ResponseModel {Success=true,StatusCode=200,Message="Successfully removed selected applicant" };
+                return new ResponseModel {Success=true,StatusCode=201,Message="Successfully removed selected applicant" };
             }
             catch (Exception ex)
             {
@@ -39,17 +39,24 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
         public async Task<ResponseModel> ListAsync()
         {
             var applicants = await applicantRepository.ListAsync();
-            return new ResponseModel {Success=true,Data=applicants,StatusCode=200 };
+            return new ResponseModel {Success=true,Data=applicants,StatusCode=201 };
 
         }
+        public async Task<ResponseModel> ListByIdAsync(int Id)
+        {
+            var applicant = await applicantRepository.FindByIdAsync(Id);
+            if (applicant == null)
+                return new ResponseModel {Success=false,StatusCode=404,Message="No applicant found" };
+            return new ResponseModel { Success = true, Data = applicant, StatusCode = 201 };
 
+        }
         public async Task<ResponseModel> SaveAsync(Applicant applicant)
         {
             try
             {
 
                 if (applicant == null)
-                    return new ResponseModel { Success=false,Message="Invalid applicant"};
+                    return new ResponseModel { Success=false,Message="Invalid applicant",StatusCode=400};
 
                 await applicantRepository.AddAsync(applicant);
                 await unitOfWork.CompleteAsync();
@@ -82,7 +89,7 @@ namespace Hahn.ApplicatonProcess.May2020.Data.Services
                 applicantRepository.Update(existingApplicant);
                 await unitOfWork.CompleteAsync();
 
-                return new ResponseModel { Success=true,Message="Applicant updated successfully",Data=applicant};
+                return new ResponseModel { Success=true,Message="Applicant updated successfully",Data=applicant, StatusCode=201};
             }
             catch (Exception ex)
             {
