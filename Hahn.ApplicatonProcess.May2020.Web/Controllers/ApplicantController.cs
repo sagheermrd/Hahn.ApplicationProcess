@@ -38,8 +38,7 @@ namespace Hahn.ApplicatonProcess.May2020.Web.Controllers
         public async Task<IActionResult> Post([FromBody] Applicant applicant)
         {
             var result= await applicantService.SaveAsync(applicant);
-            return Created("Applicant", result.Data);
-            
+            return  Created($"Applicant/{applicant.ID}", result.Data);
         }
     
         // PUT: api/Applicant/5
